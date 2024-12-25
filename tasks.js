@@ -98,8 +98,7 @@ function hello(name) {
  */
   function help() {
   console.log("Available commands:");
-  console.log("- hello: Greets the user.");
-  console.log("- hello name: Greets the user by his name.");
+  console.log("- hello [name]: Greets the user. If a name is provided, it greets with the name.");
   console.log("- quit: Exits the application.");
   console.log("- exit: Also exits the application.");
   console.log("- help: Displays this help message.");
