@@ -43,7 +43,12 @@ function onDataReceived(text) {
     const name = text.substring(6); // Extract the name after "hello "
     hello(name);
 
-  } else if (text.trim() === 'help') {
+  }
+  else if (text === 'hello') { 
+    hello(); 
+  }
+  
+  else if (text.trim() === 'help') {
     help();
   }
   
@@ -71,12 +76,18 @@ function unknownCommand(c){
  * @param {string} [name] - Optional argument to include in the greeting.
  * @returns {void}
  */
-
+/*
 function hello(name) {
   console.log(`Hello ${name}!`);
 }
-
-
+**/
+function hello(name) { 
+  if (name) {
+    console.log(`Hello ${name}!`); 
+  } else {
+    console.log("Hello!"); 
+  }
+}
 /**
  * help command
  * 
