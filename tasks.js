@@ -73,6 +73,10 @@ function hello(){
 
 /**
  * help command
+ * 
+ * Displays a list of all available commands and their descriptions.
+ * This function does not return anything; it only outputs the list to the console.
+ * 
  * @returns{}
  */
   function help() {
