@@ -41,6 +41,9 @@ function onDataReceived(text) {
   else if(text === 'hello'){
     hello();
   }
+  else if (text.trim() === 'help') {
+    help();
+  }
   else{
     unknownCommand(text);
   }
@@ -68,7 +71,17 @@ function hello(){
   console.log('hello!')
 }
 
-
+/**
+ * help command
+ * @returns{}
+ */
+  function help() {
+  console.log("Available commands:");
+  console.log("- hello: Greets the user.");
+  console.log("- quit: Exits the application.");
+  console.log("- exit: Also exits the application.");
+  console.log("- help: Displays this help message.");
+  }
 /**
  * Exits the application
  *
