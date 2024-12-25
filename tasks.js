@@ -38,12 +38,15 @@ function onDataReceived(text) {
   if (text.trim() === 'quit' || text.trim() === 'exit') {
     quit();
   }
-  else if(text === 'hello'){
-    hello();
-  }
-  else if (text.trim() === 'help') {
+
+  else if (text.startsWith('hello ')) {
+    const name = text.substring(6); // Extract the name after "hello "
+    hello(name);
+
+  } else if (text.trim() === 'help') {
     help();
   }
+  
   else{
     unknownCommand(text);
   }
@@ -63,13 +66,16 @@ function unknownCommand(c){
 
 
 /**
- * Says hello
- *
+ * Greets the user. If an argument is provided, includes it in the greeting.
+ * 
+ * @param {string} [name] - Optional argument to include in the greeting.
  * @returns {void}
  */
-function hello(){
-  console.log('hello!')
+
+function hello(name) {
+  console.log(`Hello ${name}!`);
 }
+
 
 /**
  * help command
