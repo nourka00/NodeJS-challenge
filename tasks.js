@@ -47,6 +47,9 @@ function onDataReceived(text) {
   else if (text === 'hello') { 
     hello(); 
   }
+   else if (text === 'list') {
+    listTasks();
+  } 
   
   else if (text.trim() === 'help') {
     help();
@@ -88,6 +91,37 @@ function hello(name) {
     console.log("Hello!"); 
   }
 }
+/**Define the taskes */
+let tasks = ['Buy groceries',
+           'Clean the house',
+           '30min exercise',
+           'View the record lectures', 
+           'Study JavaScript',
+           'Update portfolio website',
+           'English practice on YouTube',
+           'Finish the stage report',
+           'Prepare for presentation'
+            ];
+/**function list 
+ * Lists all tasks with their numbers.
+ * 
+ * @returns {void}
+ */
+/*function listTasks(){
+  for(let i=0; i<tasks.length; i++)
+    console.log((i+1)+"- "+tasks[i]);
+}*/
+function listTasks() {
+  if (tasks.length === 0) {
+    console.log('No tasks found.');
+  } else {
+    console.log('Here are your tasks:');
+    tasks.forEach((task, index) => {
+      console.log(`${index + 1}. ${task}`);
+    });
+  }
+}
+
 /**
  * help command
  * 
