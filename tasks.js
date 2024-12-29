@@ -50,6 +50,12 @@ function onDataReceived(text) {
    else if (text === 'list') {
     listTasks();
   } 
+  /**else if (text === 'add') {
+    addTask(argument);
+  }*/
+    else if(text.split(" ")[0].replace("\n","") === "add"){
+      add(text.replace("\n","").split(" ").slice(1));
+    }
   
   else if (text.trim() === 'help') {
     help();
@@ -121,6 +127,24 @@ function listTasks() {
     });
   }
 }
+
+/** add task
+function add(task) {
+  if (task != "")
+    tasks.push(task);
+  else {
+    console.log("error");
+  }
+} */
+  function add(task) {
+    if (task.length === 0) {
+      console.log('Error: Please provide a task to add.');
+    } else {
+      const newtask = task.join(" "); // Combine the array into a string
+      tasks.push(newtask); // Add the string to the task list
+      console.log(`Task added: "${newtask}"`);
+    }
+  }
 
 /**
  * help command
