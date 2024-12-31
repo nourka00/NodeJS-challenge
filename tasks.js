@@ -54,9 +54,11 @@ function saveTasks() {
  * @returns {void}
  */
 function onDataReceived(text) {
-  const parts = text.trim().split(' ');
-  const argument = parts.slice(1).join(' ');
+  const trimmedText = text.trim(); // Remove any extra spaces or newline characters
+  const [command, ...args] = trimmedText.split(' '); // Split input into command and arguments
   text=text.trim();
+
+
   if (text.trim() === 'quit' || text.trim() === 'exit') {
     quit();
   }
@@ -65,7 +67,7 @@ function onDataReceived(text) {
     hello(name);
   }
   else if (text === 'remove') {
-    removeTask(argument);
+    removeTask(args.join(' ')); // Pass arguments to removeTask
   } 
   else if (text === 'hello') { 
     hello(); 
@@ -78,6 +80,7 @@ function onDataReceived(text) {
   }*/
     else if(text.split(" ")[0].replace("\n","") === "add"){
       add(text.replace("\n","").split(" ").slice(1));
+      add(args.join(' ')); // Pass arguments to add
     }
   
   else if (text.trim() === 'help') {
@@ -175,27 +178,28 @@ function add(task) {
 
 
   function removeTask(argument) {
-    if (argument === '') {
-      // If no argument is provided, remove the last task
-      if (tasks.length > 0) {
-        const removedTask = tasks.pop();
-        saveTasks(); // Save the updated tasks list to the file
-        console.log(`Removed task: "${removedTask}"`);
-      } else {
-        console.log('No tasks to remove.');
-      }
+  if (argument === '') {
+    if (tasks.length > 0) {
+      const removedTask = tasks.pop();
+      saveTasks();
+      console.log(`Removed task: "${removedTask}"`);
     } else {
-      // If an argument is provided, remove the task at that index (1-based index)
-      const index = parseInt(argument) - 1; // Convert the argument to a 0-based index
-      if (index >= 0 && index < tasks.length) {
-        const removedTask = tasks.splice(index, 1); // Remove the task at the specified index
-        saveTasks(); // Save the updated tasks list to the file
-        console.log(`Removed task: "${removedTask[0]}"`);
-      } else {
-        console.log('Invalid task number.');
-      }
+      console.log('No tasks to remove.');
+    }
+  } else {
+    const index = parseInt(argument) - 1; // Convert to zero-based index
+    if (isNaN(index)) {
+      console.log('Invalid input. Please provide a valid task number.');
+    } else if (index >= 0 && index < tasks.length) {
+      const removedTask = tasks.splice(index, 1);
+      saveTasks();
+      console.log(`Removed task: "${removedTask[0]}"`);
+    } else {
+      console.log(`Task number ${argument} does not exist.`);
     }
   }
+}
+
 
 
 
