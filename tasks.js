@@ -209,12 +209,13 @@ function add(task) {
  */
   function help() {
     console.log("Available commands:");
-    console.log("- list: Lists all tasks with their numbers.");
-    console.log("- hello [name]: Greets the user. If a name is provided, it greets with the name.");
-    console.log("- add [task]: Adds a new task to the list. If no task is provided, it shows an error.");
-    console.log("- quit: Exits the application.");
-    console.log("- exit: Also exits the application.");
-    console.log("- help: Displays this help message.");
+  console.log("- list: Lists all tasks with their numbers.");
+  console.log("- hello [name]: Greets the user. If a name is provided, it greets with the name.");
+  console.log("- add [task]: Adds a new task to the list. If no task is provided, it shows an error.");
+  console.log("- remove [n]: Removes the task at the specified position (1-based index). If no index is provided, removes the last task.");
+  console.log("- quit: Exits the application.");
+  console.log("- exit: Also exits the application.");
+  console.log("- help: Displays this help message.");
   }
 /**
  * Exits the application
