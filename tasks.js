@@ -10,13 +10,33 @@
  * @returns {void}
  */
 function startApp(name){
+  loadTasks();
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
   console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
 }
+/**fs module */
 
+const fs = require('fs');
+const fileName = 'tasks.json';
+
+
+// Load tasks from the file when the program starts
+function loadTasks() {
+  try {
+    const data = fs.readFileSync('tasks.json', 'utf8');
+    tasks = JSON.parse(data); // Parse the JSON string into an array
+  } catch (err) {
+    tasks = []; // If there's an error (like the file doesn't exist), initialize an empty array
+  }
+}
+
+// Save tasks to the file
+function saveTasks() {
+  fs.writeFileSync('tasks.json', JSON.stringify(tasks, null, 2), 'utf8');
+}
 
 /**
  * Decides what to do depending on the data that was received
@@ -34,16 +54,19 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
+  const parts = text.trim().split(' ');
+  const argument = parts.slice(1).join(' ');
   text=text.trim();
   if (text.trim() === 'quit' || text.trim() === 'exit') {
     quit();
   }
-
   else if (text.startsWith('hello ')) {
     const name = text.substring(6); // Extract the name after "hello "
     hello(name);
-
   }
+  else if (text === 'remove') {
+    removeTask(argument);
+  } 
   else if (text === 'hello') { 
     hello(); 
   }
@@ -142,9 +165,39 @@ function add(task) {
     } else {
       const newtask = task.join(" "); // Combine the array into a string
       tasks.push(newtask); // Add the string to the task list
+      saveTasks();
       console.log(`Task added: "${newtask}"`);
     }
   }
+
+
+  /** remove function */
+
+
+  function removeTask(argument) {
+    if (argument === '') {
+      // If no argument is provided, remove the last task
+      if (tasks.length > 0) {
+        const removedTask = tasks.pop();
+        saveTasks(); // Save the updated tasks list to the file
+        console.log(`Removed task: "${removedTask}"`);
+      } else {
+        console.log('No tasks to remove.');
+      }
+    } else {
+      // If an argument is provided, remove the task at that index (1-based index)
+      const index = parseInt(argument) - 1; // Convert the argument to a 0-based index
+      if (index >= 0 && index < tasks.length) {
+        const removedTask = tasks.splice(index, 1); // Remove the task at the specified index
+        saveTasks(); // Save the updated tasks list to the file
+        console.log(`Removed task: "${removedTask[0]}"`);
+      } else {
+        console.log('Invalid task number.');
+      }
+    }
+  }
+
+
 
 /**
  * help command
@@ -155,11 +208,13 @@ function add(task) {
  * @returns{}
  */
   function help() {
-  console.log("Available commands:");
-  console.log("- hello [name]: Greets the user. If a name is provided, it greets with the name.");
-  console.log("- quit: Exits the application.");
-  console.log("- exit: Also exits the application.");
-  console.log("- help: Displays this help message.");
+    console.log("Available commands:");
+    console.log("- list: Lists all tasks with their numbers.");
+    console.log("- hello [name]: Greets the user. If a name is provided, it greets with the name.");
+    console.log("- add [task]: Adds a new task to the list. If no task is provided, it shows an error.");
+    console.log("- quit: Exits the application.");
+    console.log("- exit: Also exits the application.");
+    console.log("- help: Displays this help message.");
   }
 /**
  * Exits the application
